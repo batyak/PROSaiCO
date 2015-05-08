@@ -17,6 +17,7 @@ private:
 		seed = 0;
 		ibound = 0;
 		MPE_bound=0;
+		ishelp=false;
 	}
 	static Params* inst;
 
@@ -51,7 +52,7 @@ public:
 	size_t ibound; //for "mini-buckets" MPE
 	double MPE_bound;
 	string cnfFile;
-
+	bool ishelp;
 	/*	cmd.defineOption("timeout"," timeout in seconds",ArgvParser::OptionRequiresValue);
 		cmd.defineOptionAlternative("timeout","t");
 
@@ -77,6 +78,10 @@ public:
 		cmd.defineOption("ibound","",ArgvParser::OptionRequiresValue);*/
 	void loadFromProps(ArgvParser& args){
 		std::stringstream ss;
+		if(args.foundOption("help")){			
+			ishelp=true;
+		}
+
 		if(args.foundOption("cnfFile")){
 			cnfFile = args.optionValue("cnfFile");
 			ss << "cnfFile: " << cnfFile << endl;
@@ -97,7 +102,7 @@ public:
 		if(args.foundOption("seed")){
 			string seedStr = args.optionValue("seed");
 			seed = Convert::string_to_T<unsigned int>(seedStr);
-			ss << "seed: " << seed << endl;
+			//ss << "seed: " << seed << endl;
 		}
 
 		if(args.foundOption("dtreeFile")){
@@ -107,13 +112,13 @@ public:
 
 		if(args.foundOption("pmapFile")){
 			pmapFile = args.optionValue("pmapFile");			
-			ss << "pmapFile: " << pmapFile << endl;
+			//ss << "pmapFile: " << pmapFile << endl;
 		}
 
 		if(args.foundOption("addMode")){
 			string addModeStr = args.optionValue("addMode");
 			ADD_LIT_WEIGHTS = (Convert::string_to_T<unsigned int>(addModeStr) > 0);
-			ss << "ADD_LIT_WEIGHTS: " << ADD_LIT_WEIGHTS << endl;
+			//ss << "ADD_LIT_WEIGHTS: " << ADD_LIT_WEIGHTS << endl;
 		}
 
 		if(args.foundOption("ibound")){

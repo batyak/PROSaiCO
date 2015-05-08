@@ -415,22 +415,23 @@ private:
 		*readParams=NULL;
 		ArgvParser cmd;
 		cmd.setHelpOption();
-		cmd.setIntroductoryDescription("WMC_JT version 1.0, June 2014, copyright 2014, Technion");
-		cmd.defineOption("cnfFile","",ArgvParser::OptionRequired);
+		//cmd.setIntroductoryDescription("WMC_JT version 1.0, June 2014, copyright 2014, Technion");
+		cmd.defineOption("cnfFile","Boolean formula input file",ArgvParser::OptionRequired);
 		cmd.defineOptionAlternative("cnfFile","f");
 
-		cmd.defineOption("timeout"," timeout in seconds",ArgvParser::OptionRequiresValue);
+		cmd.defineOption("timeout","Timeout in seconds",ArgvParser::OptionRequiresValue);
 		cmd.defineOptionAlternative("timeout","t");
 
-		cmd.defineOption("CDCL"," apply conflic directed clause learning",ArgvParser::OptionRequiresValue);
+		cmd.defineOption("CDCL","Apply conflic directed clause learning (1/0)",ArgvParser::OptionRequiresValue);
 		cmd.defineOptionAlternative("CDCL","l");
 
-		cmd.defineOption("seed"," seed for rerunning",ArgvParser::OptionRequiresValue);
+		cmd.defineOption("seed","Seed for rerunning",ArgvParser::OptionRequiresValue);
 		cmd.defineOptionAlternative("seed","s");
 
 		cmd.defineOption("dtreeFile","file containing dtree",ArgvParser::OptionRequiresValue);
-		cmd.defineOptionAlternative("dtree","r");
+		cmd.defineOptionAlternative("dtreeFile","r");
 
+		cmd.defineOption("ibound","Relevant for MPE only",ArgvParser::OptionRequiresValue);
 
 		cmd.defineOption("pmapFile","",ArgvParser::OptionRequiresValue);
 		cmd.defineOptionAlternative("pmapFile","p");
@@ -441,10 +442,17 @@ private:
 		cmd.defineOption("bound","",ArgvParser::OptionRequiresValue);
 		cmd.defineOptionAlternative("bound","b");
 
-		cmd.defineOption("ibound","",ArgvParser::OptionRequiresValue);
+		
 	
 
 		int errorCode = cmd.parse(argc,argv);
+		if(errorCode==ArgvParser::ParserHelpRequested){			
+			Params::instance().loadFromProps(cmd);
+			*readParams=Params::x_instance();
+			(*readParams)->ishelp=true;
+			cout << cmd.usageDescription();
+			return;
+		}
 		if(errorCode != ArgvParser::NoParserError){
 			cout << cmd.parseErrorDescription(errorCode) << endl;			
 			return;

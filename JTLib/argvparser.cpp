@@ -373,12 +373,14 @@ string ArgvParser::usageDescription(unsigned int _width) const
         if (option2attribute.find(it->first)->second & OptionRequired)
             os += " [required]";
 
-        usage += formatString(os, _width) + "\n";
+    //    usage += formatString(os, _width) + "\n";
 
-        if (option2descr.find(it->first) != option2descr.end())
-            usage += formatString(option2descr.find(it->first)->second, _width, 4);
+        if (option2descr.find(it->first) != option2descr.end()){
+			usage += formatString(os, _width) + "\n";
+			usage += formatString(option2descr.find(it->first)->second, _width, 4);}
         else
-            usage += formatString("(no description)", _width, 4);
+			usage += formatString("", _width, 4);
+            //usage += formatString("(no description)", _width, 4);
 
         // finally a little gap
         usage += "\n\n";

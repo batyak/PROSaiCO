@@ -9,12 +9,17 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	cout << "WMC_JT version 1.0, June 2014" << endl
-		 << "copyright 2014, Technion" << endl;		
+//	cout << "WMC_JT version 1.0, June 2014" << endl
+//		 << "copyright 2014, Technion" << endl;		
 	
 
 	Params* parameters;
 	readParams(argc, argv, &parameters);
+	if(parameters == NULL)
+		return 0;
+	if(parameters->ishelp){
+		return 0;
+	}
 	char* filename = argv[1];
     cout <<"Solving " << parameters->cnfFile << " ......" << endl;
 	cout << parameters->toString() << endl;

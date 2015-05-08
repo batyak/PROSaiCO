@@ -17,6 +17,9 @@ int main(int argc, char* argv[])
 
 	Params* parameters;
 	readParams(argc, argv, &parameters);
+	if(parameters->ishelp){
+		return 0;
+	}
 	char* filename = argv[1];
     cout <<"Solving " << parameters->cnfFile << " ......" << endl;
 	cout << parameters->toString() << endl;
